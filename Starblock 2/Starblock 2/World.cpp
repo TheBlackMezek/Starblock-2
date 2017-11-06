@@ -6,6 +6,11 @@ World::World()
 	: tileSize(20), mapWidth(100), mapHeight(100)
 {
 	tiles.resize(mapWidth * mapHeight);
+
+	for (int i = 0; i < mapWidth * mapHeight; ++i)
+	{
+		tiles[i] = 0;
+	}
 }
 
 

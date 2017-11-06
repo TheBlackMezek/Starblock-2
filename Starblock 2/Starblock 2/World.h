@@ -15,6 +15,10 @@ public:
 	const int mapHeight;
 	const float tileSize;
 
+
+	void gen();
+	void draw();
+
 	int getTile(int x, int y);
 	int getTile(int idx);
 	void setTile(int x, int y, int type);

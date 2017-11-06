@@ -18,5 +18,5 @@ Textures::~Textures()
 
 void Textures::init()
 {
-	stringBitmap = sfw::loadTextureMap("Images\16x16fontmap.gif", 16, 16);
+	stringBitmap = sfw::loadTextureMap("Images\\16x16fontmap.gif", 16, 16);
 }
