@@ -4,3 +4,4 @@
 
 
 void drawCircle(const circle& c);
+void drawBox(const AABB& box);

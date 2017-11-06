@@ -13,7 +13,7 @@ Sprite::~Sprite()
 }
 
 
-void Sprite::draw(const Transform& t, const Mat3& cam = mat3identity())
+void Sprite::draw(const Transform& t, const Mat3& cam)
 {
 	Mat3 M = cam * t.getGlobalTransform() * translation(offset) * scaleMat(dim);
 

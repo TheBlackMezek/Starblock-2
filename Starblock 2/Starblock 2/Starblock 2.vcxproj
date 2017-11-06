@@ -129,11 +129,13 @@
     <ClCompile Include="DrawShapes.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="Textures.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DrawShapes.h" />
     <ClInclude Include="Sprite.h" />
+    <ClInclude Include="Textures.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
