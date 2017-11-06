@@ -21,7 +21,7 @@ int main()
 {
 	srand(time(NULL));
 
-	sfw::initContext(800, 600, "MathTest");
+	sfw::initContext(800, 600, "Starblock 2");
 
 	sfw::setBackgroundColor(BLACK);
 
@@ -34,6 +34,7 @@ int main()
 	while (sfw::stepContext())
 	{
 		world.draw();
+		sfw::drawTexture(Textures::background, 400, 300, 800, 600);
 	}
 
 	return 0;

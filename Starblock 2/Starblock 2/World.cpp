@@ -2,12 +2,15 @@
 
 #include <stdlib.h>
 
+#include "sfwdraw.h"
+
 #include "DrawShapes.h"
+#include "Textures.h"
 
 
 
 World::World()
-	: tileSize(20), mapWidth(39), mapHeight(25)
+	: tileSize(20), mapWidth(40), mapHeight(25)
 {
 	tiles.resize(mapWidth * mapHeight);
 
@@ -49,8 +52,11 @@ void World::draw()
 		{
 			if (tiles[x + y * mapWidth] != 0)
 			{
-				drawBox({ {x * tileSize, y * tileSize},
-				{x * tileSize + tileSize, y * tileSize + tileSize} });
+				/*drawBox({ {x * tileSize, y * tileSize},
+				{x * tileSize + tileSize, y * tileSize + tileSize} });*/
+				sfw::drawTexture(Textures::moonDust,
+					x * tileSize + tileSize/2, y * tileSize + tileSize/2,
+					tileSize, tileSize);
 			}
 		}
 	}

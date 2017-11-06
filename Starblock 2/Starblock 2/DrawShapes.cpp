@@ -24,3 +24,8 @@ void writeString(const char* s, size_t slen, int x, int y, float size, int lines
 {
 	sfw::drawString(Textures::stringBitmap, s, x, y, size, size);
 }
+
+void drawTexture(int texId, const AABB& box)
+{
+	sfw::drawTexture(texId, box.min.x, box.min.y, box.max.x - box.min.x, box.max.y - box.min.y);
+}
