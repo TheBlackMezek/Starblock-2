@@ -1,9 +1,13 @@
 #include "World.h"
 
+#include <stdlib.h>
+
+#include "DrawShapes.h"
+
 
 
 World::World()
-	: tileSize(20), mapWidth(100), mapHeight(100)
+	: tileSize(20), mapWidth(39), mapHeight(25)
 {
 	tiles.resize(mapWidth * mapHeight);
 
@@ -16,6 +20,40 @@ World::World()
 
 World::~World()
 {
+}
+
+
+
+
+void World::gen()
+{
+	for (int i = 0; i < mapWidth * mapHeight; ++i)
+	{
+		tiles[i] = rand() % 2;
+		/*if (i < 5 * mapWidth)
+		{
+			tiles[i] = 1;
+		}
+		else
+		{
+			tiles[i] = 0;
+		}*/
+	}
+}
+
+void World::draw()
+{
+	for (float y = 0; y < mapHeight; ++y)
+	{
+		for (float x = 0; x < mapWidth; ++x)
+		{
+			if (tiles[x + y * mapWidth] != 0)
+			{
+				drawBox({ {x * tileSize, y * tileSize},
+				{x * tileSize + tileSize, y * tileSize + tileSize} });
+			}
+		}
+	}
 }
 
 
