@@ -9,6 +9,7 @@
 #include "Textures.h"
 #include "DrawShapes.h"
 #include "World.h"
+#include "Entity.h"
 
 
 
@@ -30,9 +31,23 @@ int main()
 	World world;
 	world.gen();
 
+	Entity entity;
+	entity.trans.pos = { 100, 500 };
+	entity.collider.box = { {0, 0},{30, 30} };
+	entity.sprite.texId = Textures::moonDust;
+	entity.sprite.dim = { 30, 30 };
+
 
 	while (sfw::stepContext())
 	{
+		float dt = sfw::getDeltaTime();
+
+		entity.body.force.y = -50;
+
+		entity.update(dt);
+		world.collide(entity);
+
+		entity.draw();
 		world.draw();
 		sfw::drawTexture(Textures::background, 400, 300, 800, 600);
 	}

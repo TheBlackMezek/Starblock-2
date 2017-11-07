@@ -36,6 +36,9 @@
     <ClCompile Include="Textures.cpp">
       <Filter>Source Files\LibLayer</Filter>
     </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="World.h">
@@ -49,6 +52,9 @@
     </ClInclude>
     <ClInclude Include="Textures.h">
       <Filter>Header Files\LibLayer</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

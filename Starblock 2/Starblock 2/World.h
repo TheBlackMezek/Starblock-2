@@ -4,6 +4,7 @@
 #include <vector>
 
 
+class Entity;
 
 class World
 {
@@ -18,6 +19,8 @@ public:
 
 	void gen();
 	void draw();
+
+	void collide(Entity& e);
 
 	int getTile(int x, int y);
 	int getTile(int idx);

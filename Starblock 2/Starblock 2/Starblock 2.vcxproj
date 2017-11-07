@@ -127,6 +127,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DrawShapes.cpp" />
+    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Textures.cpp" />
@@ -134,6 +135,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DrawShapes.h" />
+    <ClInclude Include="Entity.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Textures.h" />
     <ClInclude Include="World.h" />
