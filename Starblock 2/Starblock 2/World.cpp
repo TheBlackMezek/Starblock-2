@@ -1,6 +1,7 @@
 #include "World.h"
 
 #include <stdlib.h>
+#include <iostream>
 
 #include "sfwdraw.h"
 #include "MathLib\Collision.h"
@@ -70,31 +71,47 @@ void World::draw()
 
 void World::collide(Entity& e)
 {
-	vec2 tile;
-	tile.x = (int)(e.trans.pos.x / tileSize) + 1;
-	tile.y = (int)(e.trans.pos.y / tileSize) + 1;
-	AABB tileBox;
-	tileBox.max = tile * tileSize;
-	tileBox.min = { tile.x * tileSize - tileSize, tile.y * tileSize - tileSize };
+	vec2 tileMin;
+	tileMin.x = (int)(e.trans.pos.x / tileSize)+1;
+	tileMin.y = (int)(e.trans.pos.y / tileSize)+1;
+	std::cout << tileMin.x << "," << tileMin.y << std::endl;
+	//std::cout << e.trans.pos.x << "," << e.trans.pos.y << std::endl;
+	vec2 tileMax;
+	tileMax.x = (int)((e.trans.pos.x+e.collider.box.max.x-e.collider.box.min.x) / tileSize)+1;
+	tileMax.y = (int)((e.trans.pos.y + e.collider.box.max.y - e.collider.box.min.y) / tileSize)+1;
+
+	for (float y = tileMin.y; y <= tileMax.y; ++y)
+	{
+		for (float x = tileMin.x; x <= tileMax.x; ++x)
+		{
+			AABB tileBox;
+			tileBox.max = vec2{x,y} * tileSize;
+			tileBox.min = { x * tileSize - tileSize, y * tileSize - tileSize };
+
+			drawBox(tileBox);
+
+			if (getTile(x-1, y-1))
+			{
+				Collision col = intersectAABB(e.collider.getGlobalBox(e.trans), tileBox);
+				if (col.penetrationDepth > 0)
+				{
+					e.trans.pos += col.axis * col.handedness * col.penetrationDepth;
+					//e.body.force += col.axis * col.handedness * (col.penetrationDepth * 2);
+					/*e.body.acceleration.x *= col.axis.y;
+					e.body.acceleration.y *= col.axis.x;
+					e.body.velocity.x *= col.axis.y;
+					e.body.velocity.y *= col.axis.x;*/
+				}
+			}
+		}
+	}
 	//tileBox.min = tile;
 	//tileBox.max = { tile.x + tileSize, tile.y + tileSize };
 
-	drawBox(tileBox);
+	
 	drawBox(e.collider.getGlobalBox(e.trans));
 
-	if (getTile(tile.x, tile.y))
-	{
-		Collision col = intersectAABB(e.collider.getGlobalBox(e.trans), tileBox);
-		if (col.penetrationDepth > 0)
-		{
-			e.trans.pos += col.axis * col.handedness * col.penetrationDepth;
-			e.body.force += col.axis * col.handedness * (col.penetrationDepth * 2);
-			/*e.body.acceleration.x *= col.axis.y;
-			e.body.acceleration.y *= col.axis.x;
-			e.body.velocity.x *= col.axis.y;
-			e.body.velocity.y *= col.axis.x;*/
-		}
-	}
+	
 
 }
 
