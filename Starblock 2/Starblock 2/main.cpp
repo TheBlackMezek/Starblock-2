@@ -42,7 +42,8 @@ int main()
 	{
 		float dt = sfw::getDeltaTime();
 
-		entity.body.force.y = -50;
+		//entity.body.force.y = -50;
+		entity.body.force.y -= 50;
 
 		entity.update(dt);
 		world.collide(entity);
