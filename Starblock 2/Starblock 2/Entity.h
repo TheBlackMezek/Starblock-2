@@ -20,6 +20,8 @@ public:
 	Transform trans;
 	Sprite sprite;
 
+	bool onGround;
+
 	void update(float dt);
 	void draw();
 };

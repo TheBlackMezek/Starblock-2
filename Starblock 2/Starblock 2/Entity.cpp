@@ -4,6 +4,7 @@
 
 Entity::Entity()
 {
+	onGround = false;
 }
 
 

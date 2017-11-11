@@ -79,6 +79,7 @@ void World::collide(Entity& e)
 	tileMax.y = (int)((e.trans.pos.y + e.collider.box.max.y - e.collider.box.min.y) / tileSize) + 1;
 
 	bool breaker = false;
+	bool groundFlag = false;
 
 	for (float y = tileMin.y; y <= tileMax.y && !breaker; ++y)
 	{
@@ -92,6 +93,10 @@ void World::collide(Entity& e)
 				Collision col = intersectAABB(e.collider.getGlobalBox(e.trans), tileBox);
 				if (col.penetrationDepth > 0)
 				{
+					if (col.axis.y && col.handedness == 1)
+					{
+						groundFlag = true;
+					}
 					//std::cout << col.axis.x << "," << col.axis.y << "," << col.handedness << "," << col.penetrationDepth << std::endl;
 					e.trans.pos += col.axis * col.handedness * (col.penetrationDepth/2);
 					//breaker = true;
@@ -106,7 +111,7 @@ void World::collide(Entity& e)
 		}
 	}
 
-	
+	e.onGround = groundFlag;
 
 }
 
