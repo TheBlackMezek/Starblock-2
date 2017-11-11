@@ -74,29 +74,29 @@ void World::collide(Entity& e)
 	vec2 tileMin;
 	tileMin.x = (int)(e.trans.pos.x / tileSize)+1;
 	tileMin.y = (int)(e.trans.pos.y / tileSize)+1;
-	std::cout << tileMin.x << "," << tileMin.y << std::endl;
-	//std::cout << e.trans.pos.x << "," << e.trans.pos.y << std::endl;
 	vec2 tileMax;
-	tileMax.x = (int)((e.trans.pos.x+e.collider.box.max.x-e.collider.box.min.x) / tileSize)+1;
-	tileMax.y = (int)((e.trans.pos.y + e.collider.box.max.y - e.collider.box.min.y) / tileSize)+1;
+	tileMax.x = (int)((e.trans.pos.x + e.collider.box.max.x - e.collider.box.min.x) / tileSize) + 1;
+	tileMax.y = (int)((e.trans.pos.y + e.collider.box.max.y - e.collider.box.min.y) / tileSize) + 1;
 
-	for (float y = tileMin.y; y <= tileMax.y; ++y)
+	bool breaker = false;
+
+	for (float y = tileMin.y; y <= tileMax.y && !breaker; ++y)
 	{
-		for (float x = tileMin.x; x <= tileMax.x; ++x)
+		for (float x = tileMin.x; x <= tileMax.x && !breaker; ++x)
 		{
 			AABB tileBox;
 			tileBox.max = vec2{x,y} * tileSize;
 			tileBox.min = { x * tileSize - tileSize, y * tileSize - tileSize };
-
-			drawBox(tileBox);
-
 			if (getTile(x-1, y-1))
 			{
 				Collision col = intersectAABB(e.collider.getGlobalBox(e.trans), tileBox);
 				if (col.penetrationDepth > 0)
 				{
-					e.trans.pos += col.axis * col.handedness * col.penetrationDepth;
-					//e.body.force += col.axis * col.handedness * (col.penetrationDepth * 2);
+					//std::cout << col.axis.x << "," << col.axis.y << "," << col.handedness << "," << col.penetrationDepth << std::endl;
+					e.trans.pos += col.axis * col.handedness * (col.penetrationDepth/2);
+					//breaker = true;
+					//e.body.force += col.axis * col.handedness * (col.penetrationDepth);
+					//e.body.force = { e.body.force.x * col.axis.x, e.body.force.y * col.axis.y };
 					/*e.body.acceleration.x *= col.axis.y;
 					e.body.acceleration.y *= col.axis.x;
 					e.body.velocity.x *= col.axis.y;
@@ -105,11 +105,6 @@ void World::collide(Entity& e)
 			}
 		}
 	}
-	//tileBox.min = tile;
-	//tileBox.max = { tile.x + tileSize, tile.y + tileSize };
-
-	
-	drawBox(e.collider.getGlobalBox(e.trans));
 
 	
 
