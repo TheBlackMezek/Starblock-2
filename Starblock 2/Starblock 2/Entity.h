@@ -21,6 +21,7 @@ public:
 	Sprite sprite;
 
 	bool onGround;
+	bool active;
 
 	void update(float dt);
 	void draw();

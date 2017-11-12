@@ -5,6 +5,7 @@
 Entity::Entity()
 {
 	onGround = false;
+	active = true;
 }
 
 

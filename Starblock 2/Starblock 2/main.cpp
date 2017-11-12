@@ -43,8 +43,16 @@ int main()
 	bool firstStep = true;
 	vec2 mouseTile = { -1,-1 };
 	vec2 mousePos;
+	const int bulletMax = 100;
+	const float bulletSpeed = 10;
+	Entity bullets[bulletMax];
+	for (int i = 0; i < bulletMax; ++i)
+	{
+		bullets[i].active = false;
+	}
 
 
+	
 	while (sfw::stepContext())
 	{
 		float dt = sfw::getDeltaTime();
@@ -57,13 +65,26 @@ int main()
 		mousePos = { sfw::getMouseX(), sfw::getMouseY() };
 		mouseTile = { (float)((int)mousePos.x / (int)world.tileSize), (float)((int)mousePos.y / (int)world.tileSize) };
 
-		if (sfw::getMouseButton(0))
+		if (!sfw::getKey('Q') && sfw::getMouseButton(0))
 		{
 			world.setTile(mouseTile.x, mouseTile.y, 1);
 		}
-		else if (sfw::getMouseButton(1))
+		else if (!sfw::getKey('Q') && sfw::getMouseButton(1))
 		{
 			world.setTile(mouseTile.x, mouseTile.y, 0);
+		}
+		else if (sfw::getKey('Q') && sfw::getMouseButton(0))
+		{
+			for (int i = 0; i < bulletMax; ++i)
+			{
+				if (!bullets[i].active)
+				{
+					bullets[i].active = true;
+					bullets[i].trans.pos = entity.trans.pos;
+					//bullets[i].trans. //how to get rotation?
+					break;
+				}
+			}
 		}
 
 		//entity.body.force.y = -50;
