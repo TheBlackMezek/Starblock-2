@@ -41,6 +41,8 @@ int main()
 	entity.sprite.dim = { 30, 30 };
 
 	bool firstStep = true;
+	vec2 mouseTile = { -1,-1 };
+	vec2 mousePos;
 
 
 	while (sfw::stepContext())
@@ -50,6 +52,18 @@ int main()
 		{
 			dt = 0;
 			firstStep = false;
+		}
+
+		mousePos = { sfw::getMouseX(), sfw::getMouseY() };
+		mouseTile = { (float)((int)mousePos.x / (int)world.tileSize), (float)((int)mousePos.y / (int)world.tileSize) };
+
+		if (sfw::getMouseButton(0))
+		{
+			world.setTile(mouseTile.x, mouseTile.y, 1);
+		}
+		else if (sfw::getMouseButton(1))
+		{
+			world.setTile(mouseTile.x, mouseTile.y, 0);
 		}
 
 		//entity.body.force.y = -50;
@@ -62,6 +76,10 @@ int main()
 		entity.update(dt);
 		world.collide(entity);
 		
+		drawBox({mouseTile * world.tileSize,
+				{(mouseTile.x * world.tileSize) + world.tileSize, (mouseTile.y * world.tileSize) + world.tileSize }
+		});
+
 		entity.draw();
 		world.draw();
 		sfw::drawTexture(Textures::background, 400, 300, 800, 600);
