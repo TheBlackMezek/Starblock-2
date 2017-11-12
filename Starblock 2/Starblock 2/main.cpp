@@ -97,6 +97,9 @@ int main()
 		entity.update(dt);
 		world.collide(entity);
 		
+
+		sfw::drawCircle(mousePos.x, mousePos.y, 3);
+
 		drawBox({mouseTile * world.tileSize,
 				{(mouseTile.x * world.tileSize) + world.tileSize, (mouseTile.y * world.tileSize) + world.tileSize }
 		});
