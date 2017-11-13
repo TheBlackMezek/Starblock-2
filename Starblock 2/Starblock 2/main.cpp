@@ -43,6 +43,7 @@ int main()
 	bool firstStep = true;
 	vec2 mouseTile = { -1,-1 };
 	vec2 mousePos;
+	const float maxBlockDist = 150;
 	const int bulletMax = 100;
 	const float bulletSpeed = 10;
 	Entity bullets[bulletMax];
@@ -63,13 +64,14 @@ int main()
 		}
 
 		mousePos = { sfw::getMouseX(), sfw::getMouseY() };
+		float mouseDist = distance(mousePos, entity.getCenter());
 		mouseTile = { (float)((int)mousePos.x / (int)world.tileSize), (float)((int)mousePos.y / (int)world.tileSize) };
 
-		if (!sfw::getKey('Q') && sfw::getMouseButton(0))
+		if (!sfw::getKey('Q') && sfw::getMouseButton(0) && mouseDist <= maxBlockDist)
 		{
 			world.setTile(mouseTile.x, mouseTile.y, 1);
 		}
-		else if (!sfw::getKey('Q') && sfw::getMouseButton(1))
+		else if (!sfw::getKey('Q') && sfw::getMouseButton(1) && mouseDist <= maxBlockDist)
 		{
 			world.setTile(mouseTile.x, mouseTile.y, 0);
 		}
@@ -100,9 +102,12 @@ int main()
 
 		sfw::drawCircle(mousePos.x, mousePos.y, 3);
 
-		drawBox({mouseTile * world.tileSize,
-				{(mouseTile.x * world.tileSize) + world.tileSize, (mouseTile.y * world.tileSize) + world.tileSize }
-		});
+		if (mouseDist <= maxBlockDist)
+		{
+			drawBox({ mouseTile * world.tileSize,
+					{(mouseTile.x * world.tileSize) + world.tileSize, (mouseTile.y * world.tileSize) + world.tileSize }
+			});
+		}
 
 		entity.draw();
 		world.draw();

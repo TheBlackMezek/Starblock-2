@@ -25,5 +25,6 @@ public:
 
 	void update(float dt);
 	void draw();
+	vec2 getCenter();
 };
 
