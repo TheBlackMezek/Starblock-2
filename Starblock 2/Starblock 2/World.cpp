@@ -69,8 +69,10 @@ void World::draw()
 
 
 
-void World::collide(Entity& e)
+bool World::collide(Entity& e)
 {
+	bool ret = false;
+
 	vec2 tileMin;
 	tileMin.x = (int)(e.trans.pos.x / tileSize)+1;
 	tileMin.y = (int)(e.trans.pos.y / tileSize)+1;
@@ -93,6 +95,7 @@ void World::collide(Entity& e)
 				Collision col = intersectAABB(e.collider.getGlobalBox(e.trans), tileBox);
 				if (col.penetrationDepth > 0)
 				{
+					ret = true;
 					if (col.axis.y && col.handedness == 1)
 					{
 						groundFlag = true;
@@ -113,6 +116,7 @@ void World::collide(Entity& e)
 
 	e.onGround = groundFlag;
 
+	return ret;
 }
 
 

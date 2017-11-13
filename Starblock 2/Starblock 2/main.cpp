@@ -14,7 +14,7 @@
 
 
 
-
+float bulletAngle(vec2 a, vec2 b);
 
 
 
@@ -45,11 +45,12 @@ int main()
 	vec2 mousePos;
 	const float maxBlockDist = 150;
 	const int bulletMax = 100;
-	const float bulletSpeed = 10;
+	const float bulletSpeed = 1000;
 	Entity bullets[bulletMax];
 	for (int i = 0; i < bulletMax; ++i)
 	{
 		bullets[i].active = false;
+		bullets[i].body.drag = 0;
 	}
 
 
@@ -82,12 +83,26 @@ int main()
 				if (!bullets[i].active)
 				{
 					bullets[i].active = true;
-					bullets[i].trans.pos = entity.trans.pos;
+					bullets[i].trans.pos = entity.getCenter();
+					bullets[i].body.velocity = { 0,0 };
+					bullets[i].body.acceleration = { 0,0 };
+					bullets[i].body.force = { 0,0 };
+
+					vec2 playerToMouse = mousePos - entity.getCenter();
+					bullets[i].trans.angleRad = bulletAngle(playerToMouse, bullets[i].trans.getForwardFacing());
+					std::cout << bulletAngle(playerToMouse, bullets[i].trans.getForwardFacing()) << std::endl;
+					bullets[i].body.impulse = bullets[i].trans.getForwardFacing() * bulletSpeed;
+
+					//bullets[i].body.impulse = { bulletSpeed,0 };
 					//bullets[i].trans. //how to get rotation?
 					break;
 				}
 			}
 		}
+
+
+
+
 
 		//entity.body.force.y = -50;
 		entity.body.force.y -= 1000;
@@ -98,6 +113,23 @@ int main()
 
 		entity.update(dt);
 		world.collide(entity);
+
+		for (int i = 0; i < bulletMax; ++i)
+		{
+			if (bullets[i].active)
+			{
+				bullets[i].update(dt);
+				if (bullets[i].trans.pos.x < 0 || bullets[i].trans.pos.x > 800 ||
+					bullets[i].trans.pos.y < 0 || bullets[i].trans.pos.y > 600)
+				{
+					bullets[i].active = false;
+					continue;
+				}
+				bullets[i].active = !world.collide(bullets[i]);
+			}
+		}
+
+
 		
 
 		sfw::drawCircle(mousePos.x, mousePos.y, 3);
@@ -109,6 +141,14 @@ int main()
 			});
 		}
 
+		for (int i = 0; i < bulletMax; ++i)
+		{
+			if (bullets[i].active)
+			{
+				sfw::drawCircle(bullets[i].trans.pos.x, bullets[i].trans.pos.y, 3);
+			}
+		}
+
 		entity.draw();
 		world.draw();
 		sfw::drawTexture(Textures::background, 400, 300, 800, 600);
@@ -117,3 +157,11 @@ int main()
 	return 0;
 }
 
+float bulletAngle(vec2 m, vec2 p)
+{
+	float ret = acos(dot(m, p) / (magnitude(m) * magnitude(p)));
+
+	
+
+	return ret;
+}

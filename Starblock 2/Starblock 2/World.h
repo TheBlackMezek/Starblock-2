@@ -20,7 +20,7 @@ public:
 	void gen();
 	void draw();
 
-	void collide(Entity& e);
+	bool collide(Entity& e);
 
 	int getTile(int x, int y);
 	int getTile(int idx);
