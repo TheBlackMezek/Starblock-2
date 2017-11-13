@@ -51,6 +51,7 @@ int main()
 	{
 		bullets[i].active = false;
 		bullets[i].body.drag = 0;
+		bullets[i].collider.box = { {0, 0},{6, 6} };
 	}
 
 
