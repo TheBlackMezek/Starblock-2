@@ -96,14 +96,13 @@ bool World::collide(Entity& e)
 				Collision col = intersectAABB(e.collider.getGlobalBox(e.trans), tileBox);
 				if (col.penetrationDepth > 0)
 				{
-					std::cout << col.penetrationDepth << std::endl;
 					ret = true;
 					if (col.axis.y && col.handedness == 1)
 					{
 						groundFlag = true;
 					}
 					//std::cout << col.axis.x << "," << col.axis.y << "," << col.handedness << "," << col.penetrationDepth << std::endl;
-					e.trans.pos += col.axis * col.handedness * (col.penetrationDepth/2);
+					e.trans.pos += col.axis * col.handedness * (col.penetrationDepth);
 					//breaker = true;
 					//e.body.force += col.axis * col.handedness * (col.penetrationDepth);
 					//e.body.force = { e.body.force.x * col.axis.x, e.body.force.y * col.axis.y };
