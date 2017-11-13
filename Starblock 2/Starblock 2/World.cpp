@@ -2,6 +2,7 @@
 
 #include <stdlib.h>
 #include <iostream>
+#include <algorithm>
 
 #include "sfwdraw.h"
 #include "MathLib\Collision.h"
@@ -95,6 +96,7 @@ bool World::collide(Entity& e)
 				Collision col = intersectAABB(e.collider.getGlobalBox(e.trans), tileBox);
 				if (col.penetrationDepth > 0)
 				{
+					std::cout << col.penetrationDepth << std::endl;
 					ret = true;
 					if (col.axis.y && col.handedness == 1)
 					{
