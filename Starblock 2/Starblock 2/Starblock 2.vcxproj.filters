@@ -79,5 +79,17 @@
     <Image Include="Images\16x16fontmap.gif">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Images\DustTexture.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Images\EnemyTexture.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Images\RockTexture.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Images\StarBackground.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

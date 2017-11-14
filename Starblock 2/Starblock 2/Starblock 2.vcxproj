@@ -146,6 +146,10 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Images\16x16fontmap.gif" />
+    <Image Include="Images\DustTexture.png" />
+    <Image Include="Images\EnemyTexture.png" />
+    <Image Include="Images\RockTexture.png" />
+    <Image Include="Images\StarBackground.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

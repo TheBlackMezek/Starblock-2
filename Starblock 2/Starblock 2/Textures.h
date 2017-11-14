@@ -15,6 +15,7 @@ public:
 	static int moonDust;
 	static int moonRock;
 	static int background;
+	static int enemy;
 	
 
 

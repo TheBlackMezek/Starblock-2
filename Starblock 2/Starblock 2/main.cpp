@@ -137,7 +137,7 @@ int main()
 			Entity chaser;
 			chaser.trans.pos = { (float)(rand() % 800), 600 };
 			chaser.collider.box = { { 0, 0 },{ 10, 10 } };
-			chaser.sprite.texId = Textures::moonDust;
+			chaser.sprite.texId = Textures::enemy;
 			chaser.sprite.dim = { 10, 10 };
 			enemies.push_back(chaser);
 			fallingEnemies.push_back(chaser);

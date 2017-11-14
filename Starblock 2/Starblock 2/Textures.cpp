@@ -7,6 +7,7 @@ int Textures::stringBitmap;
 int Textures::moonDust;
 int Textures::moonRock;
 int Textures::background;
+int Textures::enemy;
 
 
 
@@ -25,4 +26,5 @@ void Textures::init()
 	moonDust = sfw::loadTextureMap("Images\\DustTexture.png");
 	moonRock = sfw::loadTextureMap("Images\\RockTexture.png");
 	background = sfw::loadTextureMap("Images\\StarBackground.png");
+	enemy = sfw::loadTextureMap("Images\\EnemyTexture.png");
 }
