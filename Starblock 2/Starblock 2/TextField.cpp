@@ -43,6 +43,11 @@ void TextField::update()
 	{
 		str.erase(str.begin() + str.size() - 1);
 	}
+
+	if (keysDown[257])
+	{
+		callback();
+	}
 }
 
 void TextField::reset()
