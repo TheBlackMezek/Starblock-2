@@ -22,8 +22,9 @@ float vectorToRadians(vec2 a);
 std::string getTimeString(int seconds);
 void endGame();
 void onNameEntered();
+void loadHighScores();
 
-int screen = 0;
+int screen = 1;
 std::string highScores = "";
 
 
@@ -72,6 +73,8 @@ int main()
 	Textures::init();
 
 	world.gen();
+
+	loadHighScores();
 
 	tfield.callback = onNameEntered;
 
@@ -325,11 +328,17 @@ int main()
 		{
 			screen = !sfw::getKey(32);
 
-			std::string helpStr = "Press SPACE to play";
-			float center = 400 - (helpStr.size() * 30) / 2;
-			writeString(helpStr.c_str(), helpStr.size(), center, 580, 30);
+			std::string printStr = "Press SPACE to play";
+			float center = 400 - (printStr.size() * 30) / 2;
+			writeString(printStr.c_str(), printStr.size(), center, 580, 30);
 
-			writeString(highScores.c_str(), highScores.size(), 50, 500, 30);
+			printStr = "HIGH SCORES";
+			writeString(printStr.c_str(), printStr.size(), 50, 520, 20);
+
+			printStr = "CONTROLS: A,W,D to move & jump\nLMB to shoot\nRMB to destroy blocks";
+			writeString(printStr.c_str(), printStr.size(), 20, 100, 23, 3);
+
+			writeString(highScores.c_str(), highScores.size(), 50, 480, 30);
 		}
 		else if (screen == 2)
 		{
@@ -441,7 +450,11 @@ void onNameEntered()
 	file.close();
 
 
+	loadHighScores();
+}
 
+void loadHighScores()
+{
 	std::ifstream ifile;
 	ifile.open("highscore.txt");
 
@@ -481,7 +494,7 @@ void onNameEntered()
 	highScores = "";
 	for (int i = highScoreCount - 1; i >= 0; --i)
 	{
-		highScores = highScores + std::to_string(top[i]) + topNames[i] + '\n';
+		highScores = highScores + getTimeString(top[i]) + topNames[i] + '\n';
 	}
 
 	ifile.close();
