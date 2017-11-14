@@ -22,6 +22,7 @@ std::string getTimeString(int seconds);
 void endGame(int seconds);
 
 bool endScreen = false;
+std::string highScores = "";
 
 
 
@@ -49,6 +50,8 @@ float rockCooldownMax = 1;
 float rockCooldown = rockCooldownMax;
 
 float timeSurvived = 0;
+
+const int highScoreCount = 12;
 
 bool shouldContinue = true;
 
@@ -318,8 +321,9 @@ int main()
 
 			std::string helpStr = "Press SPACE to play";
 			float center = 400 - (helpStr.size() * 30) / 2;
-			std::cout << center << std::endl;
 			writeString(helpStr.c_str(), helpStr.size(), center, 580, 30);
+
+			writeString(highScores.c_str(), highScores.size(), 50, 500, 30);
 		}
 
 		sfw::drawTexture(Textures::background, 400, 300, 800, 600);
@@ -399,11 +403,51 @@ void endGame(int seconds)
 		timeSurvived = 0;
 		
 
+
 		std::ofstream file;
 		file.open("highscore.txt", std::fstream::app);
 
 		file << std::to_string(seconds) << '\n';
 
 		file.close();
+
+
+
+		std::ifstream ifile;
+		ifile.open("highscore.txt");
+
+		int top[highScoreCount];
+		for (int i = 0; i < highScoreCount; ++i)
+		{
+			top[i] = 0;
+		}
+
+		std::string line;
+
+		while (std::getline(ifile, line))
+		{
+			int score = std::stoi(line);
+			for (int i = highScoreCount-1; i >= 0; --i)
+			{
+				if (top[i] <= score)
+				{
+					for (int n = 0; n < i; ++n)
+					{
+						top[n] = top[n + 1];
+					}
+					top[i] = score;
+					break;
+				}
+			}
+		}
+
+		highScores = "";
+		for (int i = highScoreCount-1; i >= 0; --i)
+		{
+			highScores.append(getTimeString(top[i]));
+			highScores.append("\n");
+		}
+
+		ifile.close();
 	}
 }
