@@ -149,6 +149,31 @@ int main()
 		entity.update(dt);
 		world.collide(entity);
 
+		for (int i = 0; i < bulletMax; ++i)
+		{
+			if (bullets[i].active)
+			{
+				bullets[i].update(dt);
+				if (bullets[i].trans.pos.x < 0 || bullets[i].trans.pos.x > 800 ||
+					bullets[i].trans.pos.y < 0 || bullets[i].trans.pos.y > 600)
+				{
+					bullets[i].active = false;
+					continue;
+				}
+				bullets[i].active = !world.collide(bullets[i]);
+
+				for (int n = enemies.size()-1; n >= 0; --n)
+				{
+					Collision col = intersectAABB(enemies[n].collider.getGlobalBox(enemies[n].trans),
+						bullets[i].collider.getGlobalBox(bullets[i].trans));
+					if (col.penetrationDepth > 0)
+					{
+						enemies.erase(enemies.begin() + n);
+					}
+				}
+			}
+		}
+
 		for (int i = 0; i < enemies.size(); ++i)
 		{
 			fallingEnemies[i].trans.pos = enemies[i].trans.pos;
@@ -167,21 +192,6 @@ int main()
 			if (col.penetrationDepth > 0)
 			{
 				shouldRun = false;
-			}
-		}
-
-		for (int i = 0; i < bulletMax; ++i)
-		{
-			if (bullets[i].active)
-			{
-				bullets[i].update(dt);
-				if (bullets[i].trans.pos.x < 0 || bullets[i].trans.pos.x > 800 ||
-					bullets[i].trans.pos.y < 0 || bullets[i].trans.pos.y > 600)
-				{
-					bullets[i].active = false;
-					continue;
-				}
-				bullets[i].active = !world.collide(bullets[i]);
 			}
 		}
 
