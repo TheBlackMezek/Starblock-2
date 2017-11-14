@@ -14,6 +14,7 @@
 #include "World.h"
 #include "Entity.h"
 #include "ChaserController.h"
+#include "TextField.h"
 
 
 
@@ -54,6 +55,8 @@ float timeSurvived = 0;
 const int highScoreCount = 12;
 
 bool shouldContinue = true;
+
+TextField tfield;
 
 
 
@@ -319,8 +322,15 @@ int main()
 		{
 			endScreen = !sfw::getKey(32);
 
+			tfield.update();
+
+
+			std::string nameStr = tfield.getString();
+			float center = 400 - (nameStr.size() * 30) / 2;
+			writeString(nameStr.c_str(), nameStr.size(), center, 400, 30);
+
 			std::string helpStr = "Press SPACE to play";
-			float center = 400 - (helpStr.size() * 30) / 2;
+			center = 400 - (helpStr.size() * 30) / 2;
 			writeString(helpStr.c_str(), helpStr.size(), center, 580, 30);
 
 			writeString(highScores.c_str(), highScores.size(), 50, 500, 30);
