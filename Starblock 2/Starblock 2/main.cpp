@@ -181,6 +181,8 @@ int main()
 		entity.update(dt);
 		world.collide(entity);
 
+		shouldRun = (entity.trans.pos.y > 0) * shouldRun;
+
 		for (int i = 0; i < bulletMax; ++i)
 		{
 			if (bullets[i].active)
