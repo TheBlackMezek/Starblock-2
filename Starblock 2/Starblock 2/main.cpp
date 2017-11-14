@@ -14,7 +14,7 @@
 
 
 
-float bulletAngle(vec2 a, vec2 b);
+float vectorToRadians(vec2 a);
 
 
 
@@ -97,8 +97,8 @@ int main()
 					bullets[i].body.force = { 0,0 };
 
 					vec2 playerToMouse = mousePos - entity.getCenter();
-					bullets[i].trans.angleRad = bulletAngle(playerToMouse, bullets[i].trans.getForwardFacing());
-					std::cout << bulletAngle(playerToMouse, bullets[i].trans.getForwardFacing()) << std::endl;
+					bullets[i].trans.angleRad = vectorToRadians(playerToMouse);
+					std::cout << vectorToRadians(playerToMouse) << std::endl;
 					bullets[i].body.impulse = bullets[i].trans.getForwardFacing() * bulletSpeed;
 
 					//bullets[i].body.impulse = { bulletSpeed,0 };
@@ -172,11 +172,8 @@ int main()
 	return 0;
 }
 
-float bulletAngle(vec2 m, vec2 p)
+float vectorToRadians(vec2 m)
 {
-	float ret = acos(dot(m, p) / (magnitude(m) * magnitude(p)));
-
-	
-
-	return ret;
+	normalize(m);
+	return atan2(-m.y, m.x);
 }
