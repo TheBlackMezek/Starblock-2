@@ -17,6 +17,7 @@
 
 
 float vectorToRadians(vec2 a);
+std::string getTimeString(int seconds);
 
 
 
@@ -78,6 +79,8 @@ int main()
 	float rockCooldownMax = 1;
 	float rockCooldown = rockCooldownMax;
 
+	float timeSurvived = 0;
+
 	bool shouldRun = true;
 
 
@@ -93,6 +96,7 @@ int main()
 
 		spawnCooldown = (spawnCooldown - dt) * (0 < spawnCooldown - dt);
 		rockCooldown = (rockCooldown - dt) * (0 < rockCooldown - dt);
+		timeSurvived += dt;
 
 		mousePos = { sfw::getMouseX(), sfw::getMouseY() };
 		float mouseDist = distance(mousePos, entity.getCenter());
@@ -262,6 +266,9 @@ int main()
 
 		sfw::drawCircle(mousePos.x, mousePos.y, 3);
 
+		std::string surviveString = getTimeString((int)timeSurvived);
+		writeString(surviveString.c_str(), surviveString.size(), 10, 550, 30);
+
 		if (mouseDist <= maxBlockDist)
 		{
 			drawBox({ mouseTile * world.tileSize,
@@ -299,4 +306,47 @@ float vectorToRadians(vec2 m)
 {
 	normalize(m);
 	return atan2(-m.y, m.x);
+}
+
+std::string getTimeString(int seconds)
+{
+	std::string ret = "";
+	int minutes = 0;
+	int hours = 0;
+	int days = 0;
+
+	while (seconds >= 60)
+	{
+		seconds -= 60;
+		++minutes;
+	}
+	while (minutes >= 60)
+	{
+		minutes -= 60;
+		++hours;
+	}
+	while (hours >= 24)
+	{
+		hours -= 24;
+		++days;
+	}
+
+	if (days > 0)
+	{
+		ret.append(std::to_string(days));
+		ret.append(":");
+	}
+	if (days > 0 || hours > 0)
+	{
+		ret.append(std::to_string(hours));
+		ret.append(":");
+	}
+	if (days > 0 || hours > 0 || minutes > 0)
+	{
+		ret.append(std::to_string(minutes));
+		ret.append(":");
+	}
+	ret.append(std::to_string(seconds));
+
+	return ret;
 }
