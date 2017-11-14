@@ -2,6 +2,7 @@
 #include <string>
 #include <time.h>
 #include <iostream>
+#include <vector>
 
 #include "MathLib\Vec2.h"
 #include "MathLib\shapes.h"
@@ -11,6 +12,7 @@
 #include "DrawShapes.h"
 #include "World.h"
 #include "Entity.h"
+#include "ChaserController.h"
 
 
 
@@ -45,6 +47,22 @@ int main()
 	fallingEntity.collider.box = { { 0, 0 },{ 30, 30 } };
 	fallingEntity.sprite.texId = Textures::moonDust;
 	fallingEntity.sprite.dim = { 30, 30 };
+
+
+	std::vector<Entity> enemies;
+	std::vector<Entity> fallingEnemies;
+	std::vector<ChaserController> enemyControllers;
+
+	Entity chaser;
+	chaser.trans.pos = { 700, 600 };
+	chaser.collider.box = { { 0, 0 },{ 10, 10 } };
+	chaser.sprite.texId = Textures::moonDust;
+	chaser.sprite.dim = { 10, 10 };
+	enemies.push_back(chaser);
+	fallingEnemies.push_back(chaser);
+	ChaserController cc;
+	enemyControllers.push_back(cc);
+
 
 
 	bool firstStep = true;
@@ -129,6 +147,20 @@ int main()
 		entity.update(dt);
 		world.collide(entity);
 
+		for (int i = 0; i < enemies.size(); ++i)
+		{
+			fallingEnemies[i].trans.pos = enemies[i].trans.pos;
+			fallingEnemies[i].body.force.y -= 100;
+			fallingEnemies[i].update(dt);
+			fallHit = world.collide(fallingEnemies[i]);
+
+			enemies[i].onGround = fallHit;
+			enemies[i].body.force.y -= 100 * !fallHit;
+			enemyControllers[i].update(world, enemies[i], entity);
+			enemies[i].update(dt);
+			world.collide(enemies[i]);
+		}
+
 		for (int i = 0; i < bulletMax; ++i)
 		{
 			if (bullets[i].active)
@@ -162,6 +194,11 @@ int main()
 			{
 				sfw::drawCircle(bullets[i].trans.pos.x, bullets[i].trans.pos.y, 3);
 			}
+		}
+
+		for (int i = 0; i < enemies.size(); ++i)
+		{
+			enemies[i].draw();
 		}
 
 		entity.draw();

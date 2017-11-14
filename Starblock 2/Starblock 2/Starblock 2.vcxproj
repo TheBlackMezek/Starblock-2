@@ -126,6 +126,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ChaserController.cpp" />
+    <ClCompile Include="Controller.cpp" />
     <ClCompile Include="DrawShapes.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="main.cpp" />
@@ -134,6 +136,8 @@
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ChaserController.h" />
+    <ClInclude Include="Controller.h" />
     <ClInclude Include="DrawShapes.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Sprite.h" />
