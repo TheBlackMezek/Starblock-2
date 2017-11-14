@@ -39,6 +39,13 @@ int main()
 	entity.collider.box = { {0, 0},{30, 30} };
 	entity.sprite.texId = Textures::moonDust;
 	entity.sprite.dim = { 30, 30 };
+	Entity fallingEntity;
+	fallingEntity.trans.pos = { 100, 200 };
+	fallingEntity.body.drag = 10;
+	fallingEntity.collider.box = { { 0, 0 },{ 30, 30 } };
+	fallingEntity.sprite.texId = Textures::moonDust;
+	fallingEntity.sprite.dim = { 30, 30 };
+
 
 	bool firstStep = true;
 	vec2 mouseTile = { -1,-1 };
@@ -106,7 +113,14 @@ int main()
 
 
 		//entity.body.force.y = -50;
-		entity.body.force.y -= 1000;
+		//entity.body.force.y -= 1000;
+		fallingEntity.trans.pos = entity.trans.pos;
+		fallingEntity.body.force.y -= 1000;
+		fallingEntity.update(dt);
+		
+		bool fallHit = world.collide(fallingEntity);
+		entity.body.force.y -= 1000 * !fallHit;
+		entity.onGround = fallHit;
 
 		entity.body.force.x += sfw::getKey('A') * -1000;
 		entity.body.force.x += sfw::getKey('D') * 1000;
