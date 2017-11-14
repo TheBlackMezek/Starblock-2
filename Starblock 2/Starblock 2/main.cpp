@@ -79,9 +79,11 @@ int main()
 		bullets[i].collider.box = { {0, 0},{6, 6} };
 	}
 
+	bool shouldRun = true;
+
 
 	
-	while (sfw::stepContext())
+	while (sfw::stepContext() && shouldRun)
 	{
 		float dt = sfw::getDeltaTime();
 		if (firstStep)
@@ -159,6 +161,13 @@ int main()
 			enemyControllers[i].update(world, enemies[i], entity);
 			enemies[i].update(dt);
 			world.collide(enemies[i]);
+
+			Collision col = intersectAABB(enemies[i].collider.getGlobalBox(enemies[i].trans),
+				entity.collider.getGlobalBox(entity.trans));
+			if (col.penetrationDepth > 0)
+			{
+				shouldRun = false;
+			}
 		}
 
 		for (int i = 0; i < bulletMax; ++i)
