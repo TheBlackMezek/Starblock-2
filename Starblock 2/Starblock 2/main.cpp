@@ -96,15 +96,15 @@ int main()
 		float mouseDist = distance(mousePos, entity.getCenter());
 		mouseTile = { (float)((int)mousePos.x / (int)world.tileSize), (float)((int)mousePos.y / (int)world.tileSize) };
 
-		if (!sfw::getKey('Q') && sfw::getMouseButton(0) && mouseDist <= maxBlockDist)
+		if (!sfw::getKey(340) && sfw::getMouseButton(0) && mouseDist <= maxBlockDist)
 		{
 			world.setTile(mouseTile.x, mouseTile.y, 1);
 		}
-		else if (!sfw::getKey('Q') && sfw::getMouseButton(1) && mouseDist <= maxBlockDist)
+		else if (!sfw::getKey(340) && sfw::getMouseButton(1) && mouseDist <= maxBlockDist)
 		{
 			world.setTile(mouseTile.x, mouseTile.y, 0);
 		}
-		else if (sfw::getKey('Q') && sfw::getMouseButton(0))
+		else if (sfw::getKey(340) && sfw::getMouseButton(0))
 		{
 			for (int i = 0; i < bulletMax; ++i)
 			{
