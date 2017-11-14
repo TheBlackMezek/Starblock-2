@@ -83,6 +83,7 @@ bool World::collide(Entity& e)
 
 	bool breaker = false;
 	bool groundFlag = false;
+	vec2 moveOut = { 0,0 };
 
 	for (float y = tileMin.y; y <= tileMax.y && !breaker; ++y)
 	{
@@ -102,7 +103,8 @@ bool World::collide(Entity& e)
 						groundFlag = true;
 					}
 					//std::cout << col.axis.x << "," << col.axis.y << "," << col.handedness << "," << col.penetrationDepth << std::endl;
-					e.trans.pos += col.axis * col.handedness * (col.penetrationDepth);
+					//e.trans.pos += col.axis * col.handedness * (col.penetrationDepth);
+					moveOut += col.axis * col.handedness * (col.penetrationDepth);
 					//breaker = true;
 					//e.body.force += col.axis * col.handedness * (col.penetrationDepth);
 					//e.body.force = { e.body.force.x * col.axis.x, e.body.force.y * col.axis.y };
@@ -115,6 +117,7 @@ bool World::collide(Entity& e)
 		}
 	}
 
+	e.trans.pos += moveOut;
 	e.onGround = groundFlag;
 
 	return ret;
