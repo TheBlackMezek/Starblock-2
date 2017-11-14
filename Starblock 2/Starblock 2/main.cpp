@@ -50,6 +50,8 @@ float rockCooldown = rockCooldownMax;
 
 float timeSurvived = 0;
 
+bool shouldContinue = true;
+
 
 
 int main()
@@ -89,7 +91,7 @@ int main()
 
 
 	
-	while (sfw::stepContext())
+	while (sfw::stepContext() && shouldContinue)
 	{
 		float dt = sfw::getDeltaTime();
 		if (firstStep)
@@ -98,7 +100,7 @@ int main()
 			firstStep = false;
 		}
 
-
+		shouldContinue = !sfw::getKey(256);
 
 		mousePos = { sfw::getMouseX(), sfw::getMouseY() };
 		sfw::drawCircle(mousePos.x, mousePos.y, 3);
@@ -398,7 +400,7 @@ void endGame(int seconds)
 		
 
 		std::ofstream file;
-		file.open("highscore.txt");
+		file.open("highscore.txt", std::fstream::app);
 
 		file << std::to_string(seconds) << '\n';
 
