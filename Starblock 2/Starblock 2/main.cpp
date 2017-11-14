@@ -52,16 +52,10 @@ int main()
 	std::vector<Entity> enemies;
 	std::vector<Entity> fallingEnemies;
 	std::vector<ChaserController> enemyControllers;
+	std::vector<Entity> rocks;
+	std::vector<Entity> fallingRocks;
 
-	Entity chaser;
-	chaser.trans.pos = { 700, 600 };
-	chaser.collider.box = { { 0, 0 },{ 10, 10 } };
-	chaser.sprite.texId = Textures::moonDust;
-	chaser.sprite.dim = { 10, 10 };
-	enemies.push_back(chaser);
-	fallingEnemies.push_back(chaser);
-	ChaserController cc;
-	enemyControllers.push_back(cc);
+	
 
 
 
@@ -79,6 +73,11 @@ int main()
 		bullets[i].collider.box = { {0, 0},{6, 6} };
 	}
 
+	float spawnCooldownMax = 1;
+	float spawnCooldown = spawnCooldownMax;
+	float rockCooldownMax = 1;
+	float rockCooldown = rockCooldownMax;
+
 	bool shouldRun = true;
 
 
@@ -92,19 +91,25 @@ int main()
 			firstStep = false;
 		}
 
+		spawnCooldown = (spawnCooldown - dt) * (0 < spawnCooldown - dt);
+		rockCooldown = (rockCooldown - dt) * (0 < rockCooldown - dt);
+
 		mousePos = { sfw::getMouseX(), sfw::getMouseY() };
 		float mouseDist = distance(mousePos, entity.getCenter());
-		mouseTile = { (float)((int)mousePos.x / (int)world.tileSize), (float)((int)mousePos.y / (int)world.tileSize) };
+		mouseTile = {	(float)((int)mousePos.x / (int)world.tileSize),
+						(float)((int)mousePos.y / (int)world.tileSize) };
 
-		if (!sfw::getKey(340) && sfw::getMouseButton(0) && mouseDist <= maxBlockDist)
-		{
-			world.setTile(mouseTile.x, mouseTile.y, 1);
-		}
-		else if (!sfw::getKey(340) && sfw::getMouseButton(1) && mouseDist <= maxBlockDist)
+		//if (!sfw::getKey(340) && sfw::getMouseButton(0) && mouseDist <= maxBlockDist)
+		//{
+			//world.setTile(mouseTile.x, mouseTile.y, 1);
+		//}
+		//else if (!sfw::getKey(340) && sfw::getMouseButton(1) && mouseDist <= maxBlockDist)
+		if(sfw::getMouseButton(1) && mouseDist <= maxBlockDist)
 		{
 			world.setTile(mouseTile.x, mouseTile.y, 0);
 		}
-		else if (sfw::getKey(340) && sfw::getMouseButton(0))
+		//else if (sfw::getKey(340) && sfw::getMouseButton(0))
+		else if (sfw::getMouseButton(0))
 		{
 			for (int i = 0; i < bulletMax; ++i)
 			{
@@ -118,7 +123,6 @@ int main()
 
 					vec2 playerToMouse = mousePos - entity.getCenter();
 					bullets[i].trans.angleRad = vectorToRadians(playerToMouse);
-					std::cout << vectorToRadians(playerToMouse) << std::endl;
 					bullets[i].body.impulse = bullets[i].trans.getForwardFacing() * bulletSpeed;
 
 					//bullets[i].body.impulse = { bulletSpeed,0 };
@@ -126,6 +130,34 @@ int main()
 					break;
 				}
 			}
+		}
+
+		if (spawnCooldown == 0)
+		{
+			Entity chaser;
+			chaser.trans.pos = { (float)(rand() % 800), 600 };
+			chaser.collider.box = { { 0, 0 },{ 10, 10 } };
+			chaser.sprite.texId = Textures::moonDust;
+			chaser.sprite.dim = { 10, 10 };
+			enemies.push_back(chaser);
+			fallingEnemies.push_back(chaser);
+			ChaserController cc;
+			enemyControllers.push_back(cc);
+
+			spawnCooldown = spawnCooldownMax;
+		}
+
+		if (rockCooldown == 0)
+		{
+			Entity rock;
+			rock.trans.pos = { (float)(rand() % world.mapWidth) * world.tileSize, 600 };
+			rock.collider.box = { { 0, 0 },{ world.tileSize, world.tileSize } };
+			rock.sprite.texId = Textures::moonRock;
+			rock.sprite.dim = { world.tileSize, world.tileSize };
+			rocks.push_back(rock);
+			fallingRocks.push_back(rock);
+
+			rockCooldown = rockCooldownMax;
 		}
 
 
@@ -169,6 +201,8 @@ int main()
 					if (col.penetrationDepth > 0)
 					{
 						enemies.erase(enemies.begin() + n);
+						bullets[i].active = false;
+						break;
 					}
 				}
 			}
@@ -195,6 +229,32 @@ int main()
 			}
 		}
 
+		for (int i = rocks.size() - 1; i >= 0; --i)
+		{
+			fallingRocks[i].trans.pos = rocks[i].trans.pos;
+			fallingRocks[i].body.force.y -= 100;
+			fallingRocks[i].update(dt);
+			fallHit = world.collide(fallingRocks[i]);
+
+			rocks[i].onGround = fallHit;
+			rocks[i].body.force.y -= 100 * !fallHit;
+			rocks[i].update(dt);
+
+			Collision col = intersectAABB(rocks[i].collider.getGlobalBox(rocks[i].trans),
+				entity.collider.getGlobalBox(entity.trans));
+			if (col.penetrationDepth > 0)
+			{
+				shouldRun = false;
+			}
+
+			if (world.collide(rocks[i]))
+			{
+				world.setTile(	(float)((int)rocks[i].trans.pos.x / (int)world.tileSize),
+								(float)((int)rocks[i].trans.pos.y / (int)world.tileSize),
+								1);
+				rocks.erase(rocks.begin() + i);
+			}
+		}
 
 		
 
@@ -218,6 +278,11 @@ int main()
 		for (int i = 0; i < enemies.size(); ++i)
 		{
 			enemies[i].draw();
+		}
+
+		for (int i = 0; i < rocks.size(); ++i)
+		{
+			rocks[i].draw();
 		}
 
 		entity.draw();
