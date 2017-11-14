@@ -138,7 +138,7 @@ int main()
 				world.setTile(mouseTile.x, mouseTile.y, 0);
 			}
 			//else if (sfw::getKey(340) && sfw::getMouseButton(0))
-			else if (sfw::getMouseButton(0))
+			if (sfw::getMouseButton(0))
 			{
 				for (int i = 0; i < bulletMax; ++i)
 				{
