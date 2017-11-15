@@ -56,7 +56,7 @@ float gunCooldown = gunCooldownMax;
 
 float timeSurvived = 0;
 
-const int highScoreCount = 12;
+const int highScoreCount = 10;
 
 bool shouldContinue = true;
 
@@ -340,16 +340,17 @@ int main()
 		{
 			screen = !sfw::getKey(32);
 
-			std::string printStr = "Press SPACE to play";
+			std::string printStr = "STARBLOCK 2";
 			float center = 400 - (printStr.size() * 30) / 2;
 			writeString(printStr.c_str(), printStr.size(), center, 580, 30);
 
 			printStr = "HIGH SCORES";
 			writeString(printStr.c_str(), printStr.size(), 50, 520, 20);
 
-			printStr = "CONTROLS: A,W,D to move & jump\nLMB to shoot\n"
+			printStr = "Press SPACE to play\n"
+				"CONTROLS: A & D to move\nW or SPACE to jump\nLMB to shoot\n"
 				"RMB to destroy blocks\nESC to exit";
-			writeString(printStr.c_str(), printStr.size(), 20, 100, 23, 3);
+			writeString(printStr.c_str(), printStr.size(), 20, 150, 23, 3);
 
 			writeString(highScores.c_str(), highScores.size(), 50, 480, 30);
 		}
