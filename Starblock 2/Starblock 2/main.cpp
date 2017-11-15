@@ -215,8 +215,6 @@ int main()
 				endGame();
 			}
 
-			world.draw();
-
 			for (int i = 0; i < bulletMax; ++i)
 			{
 				if (bullets[i].active)
@@ -297,6 +295,8 @@ int main()
 
 			//std::string surviveString = getTimeString((int)timeSurvived);
 
+			world.draw();
+
 			std::string surviveString = std::to_string((int)timeSurvived);
 			writeString(surviveString.c_str(), surviveString.size(), 10, 550, 30);
 
@@ -311,7 +311,9 @@ int main()
 			{
 				if (bullets[i].active)
 				{
-					sfw::drawCircle(bullets[i].trans.pos.x, bullets[i].trans.pos.y, 3);
+					//sfw::drawCircle(bullets[i].trans.pos.x, bullets[i].trans.pos.y, 3);
+					drawTexture(Textures::bullet,
+						bullets[i].collider.getGlobalBox(bullets[i].trans));
 				}
 			}
 

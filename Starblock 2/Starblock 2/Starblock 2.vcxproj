@@ -148,6 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Images\16x16fontmap.gif" />
+    <Image Include="Images\BulletTexture.png" />
     <Image Include="Images\DustTexture.png" />
     <Image Include="Images\EnemyTexture.png" />
     <Image Include="Images\RockTexture.png" />
