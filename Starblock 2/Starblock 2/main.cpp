@@ -136,7 +136,7 @@ int main()
 				//world.setTile(mouseTile.x, mouseTile.y, 1);
 			//}
 			//else if (!sfw::getKey(340) && sfw::getMouseButton(1) && mouseDist <= maxBlockDist)
-			if (sfw::getMouseButton(1) && mouseDist <= maxBlockDist)
+			if (sfw::getMouseButton(1) && mouseTile.y > 0 && mouseDist <= maxBlockDist)
 			{
 				world.setTile(mouseTile.x, mouseTile.y, 0);
 			}
@@ -304,7 +304,7 @@ int main()
 			std::string surviveString = std::to_string((int)timeSurvived);
 			writeString(surviveString.c_str(), surviveString.size(), 10, 550, 30);
 
-			if (mouseDist <= maxBlockDist && world.getTile(mouseTile.x, mouseTile.y))
+			if (mouseDist <= maxBlockDist && mouseTile.y > 0 && world.getTile(mouseTile.x, mouseTile.y))
 			{
 				drawBox({ mouseTile * world.tileSize,
 						{(mouseTile.x * world.tileSize) + world.tileSize, (mouseTile.y * world.tileSize) + world.tileSize }
