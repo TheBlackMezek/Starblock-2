@@ -293,7 +293,8 @@ int main()
 			}
 
 
-			std::string surviveString = getTimeString((int)timeSurvived);
+			//std::string surviveString = getTimeString((int)timeSurvived);
+			std::string surviveString = std::to_string((int)timeSurvived);
 			writeString(surviveString.c_str(), surviveString.size(), 10, 550, 30);
 
 			if (mouseDist <= maxBlockDist)
@@ -335,7 +336,8 @@ int main()
 			printStr = "HIGH SCORES";
 			writeString(printStr.c_str(), printStr.size(), 50, 520, 20);
 
-			printStr = "CONTROLS: A,W,D to move & jump\nLMB to shoot\nRMB to destroy blocks";
+			printStr = "CONTROLS: A,W,D to move & jump\nLMB to shoot\n"
+				"RMB to destroy blocks\nESC to exit";
 			writeString(printStr.c_str(), printStr.size(), 20, 100, 23, 3);
 
 			writeString(highScores.c_str(), highScores.size(), 50, 480, 30);
@@ -494,7 +496,13 @@ void loadHighScores()
 	highScores = "";
 	for (int i = highScoreCount - 1; i >= 0; --i)
 	{
-		highScores = highScores + getTimeString(top[i]) + topNames[i] + '\n';
+		std::string scorestr = std::to_string(top[i]);
+		std::string initspaces = "";
+		for (int n = 0; n < 10 - scorestr.size(); ++n)
+		{
+			initspaces = initspaces + ' ';
+		}
+		highScores = highScores + initspaces + std::to_string(top[i]) + topNames[i] + '\n';
 	}
 
 	ifile.close();
