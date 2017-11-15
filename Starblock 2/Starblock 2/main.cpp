@@ -51,6 +51,8 @@ float spawnCooldownMax = 1;
 float spawnCooldown = spawnCooldownMax;
 float rockCooldownMax = 1;
 float rockCooldown = rockCooldownMax;
+float gunCooldownMax = 0.1f;
+float gunCooldown = gunCooldownMax;
 
 float timeSurvived = 0;
 
@@ -122,6 +124,7 @@ int main()
 		{
 			spawnCooldown = (spawnCooldown - dt) * (0 < spawnCooldown - dt);
 			rockCooldown = (rockCooldown - dt) * (0 < rockCooldown - dt);
+			gunCooldown = (gunCooldown - dt) * (0 < gunCooldown - dt);
 			timeSurvived += dt;
 
 			float mouseDist = distance(mousePos, entity.getCenter());
@@ -138,7 +141,7 @@ int main()
 				world.setTile(mouseTile.x, mouseTile.y, 0);
 			}
 			//else if (sfw::getKey(340) && sfw::getMouseButton(0))
-			if (sfw::getMouseButton(0))
+			if (sfw::getMouseButton(0) && gunCooldown == 0)
 			{
 				for (int i = 0; i < bulletMax; ++i)
 				{
@@ -154,6 +157,7 @@ int main()
 						bullets[i].trans.angleRad = vectorToRadians(playerToMouse);
 						bullets[i].body.impulse = bullets[i].trans.getForwardFacing() * bulletSpeed;
 
+						gunCooldown = gunCooldownMax;
 						//bullets[i].body.impulse = { bulletSpeed,0 };
 						//bullets[i].trans. //how to get rotation?
 						break;
