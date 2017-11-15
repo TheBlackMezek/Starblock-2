@@ -364,9 +364,13 @@ int main()
 			center = 400 - (endStr.size() * 30) / 2;
 			writeString(endStr.c_str(), endStr.size(), center, 580, 30);
 
-			std::string helpStr = "Type your name and press ENTER";
+			std::string helpStr = "SCORE:" + std::to_string((int)timeSurvived);
 			center = 400 - (helpStr.size() * 20) / 2;
-			writeString(helpStr.c_str(), helpStr.size(), center, 480, 20);
+			writeString(helpStr.c_str(), helpStr.size(), center, 480, 25);
+
+			helpStr = "Type your name and press ENTER";
+			center = 400 - (helpStr.size() * 20) / 2;
+			writeString(helpStr.c_str(), helpStr.size(), center, 450, 20);
 		}
 
 		sfw::drawCircle(mousePos.x, mousePos.y, 3, 12U, YELLOW);
