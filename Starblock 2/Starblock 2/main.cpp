@@ -68,7 +68,7 @@ int main()
 
 	sfw::initContext(800, 600, "Starblock 2");
 
-	sfw::setBackgroundColor(BLACK);
+	//sfw::setBackgroundColor(GRE);
 
 	Textures::init();
 
@@ -115,8 +115,8 @@ int main()
 		shouldContinue = !sfw::getKey(256);
 
 		mousePos = { sfw::getMouseX(), sfw::getMouseY() };
-		sfw::drawCircle(mousePos.x, mousePos.y, 3);
 
+		sfw::drawTexture(Textures::background, 400, 300, 800, 600);
 
 		if (screen == 0)
 		{
@@ -294,6 +294,7 @@ int main()
 
 
 			//std::string surviveString = getTimeString((int)timeSurvived);
+
 			std::string surviveString = std::to_string((int)timeSurvived);
 			writeString(surviveString.c_str(), surviveString.size(), 10, 550, 30);
 
@@ -358,7 +359,7 @@ int main()
 			writeString(helpStr.c_str(), helpStr.size(), center, 480, 20);
 		}
 
-		sfw::drawTexture(Textures::background, 400, 300, 800, 600);
+		sfw::drawCircle(mousePos.x, mousePos.y, 3);
 	}
 
 	return 0;

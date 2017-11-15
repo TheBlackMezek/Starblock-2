@@ -39,8 +39,8 @@ NOTE: YOU MUST CALL initContext for any of the functions to work!
 #define KEY_DOWN	  264
 #define KEY_UP		  265
 
-#define MOUSE_BUTTON_RIGHT	1
 #define MOUSE_BUTTON_LEFT	0
+#define MOUSE_BUTTON_RIGHT	1
 
 #define GAMEPAD_DEADZONE_THRESHOLD 0.25f
 
@@ -126,7 +126,8 @@ namespace sfw
 	// index		  : If loadTextureMap was given rows and cols, index will fetch the corresponding sub-image
 	// tint			  : a hex color value applied as a tint to the texture
 	// transform	  : a 3x3 transformation matrix
-	// Z              : a Z offset used to determine the draw order
+	// Z              : a Z offset used to determine the draw order (lower > higher)
+	//                  (think of it as being "closer" to the camera!)
 	void drawTextureMatrix3(unsigned handle, unsigned index = 0, unsigned int tint = WHITE, const float transform[9] = identity3, float z = 0);
 
 
@@ -159,7 +160,8 @@ namespace sfw
 	// x1,y1,x2,y2	  : first and second position of the line.
 	// tint			  : hex color value
 	// transform	  : a 3x3 transformation matrix, applied as parent transform
-	// Z              : a Z offset used to determine the draw order
+	// Z              : a Z offset used to determine the draw order (lower > higher)
+	//                  (think of it as being "closer" to the camera!)
 	void drawLine3(float x1, float y1, float x2, float y2, float z, unsigned tint, const float transform[9] = identity3);
 
 	// uses drawLine to generate a circle
@@ -196,13 +198,18 @@ namespace sfw
 	// input using keycodes (see GLFW reference, most characters will work as per normal)
 	bool getKey(unsigned keycode);
 
-	// 0 for right, 1 for left
+	// 0 for left, 1 for right
 	bool getMouseButton(unsigned mousekeycode);
 
 	// returns the x position of the mouse- Screen relative!
 	float getMouseX();
 	// returns the y position of the mouse- Screen relative!
 	float getMouseY();
+
+	// sets the current visibility of the cursor (visible/hidden for true/false)
+	void setCursorVisible(bool vis);
+	// returns the current state of the cursor (visible/hidden for true/false)
+	bool getCursorVisible();
 
 	// Get the total time passed since the application started!
 	float getTime();
