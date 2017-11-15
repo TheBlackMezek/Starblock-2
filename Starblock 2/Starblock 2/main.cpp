@@ -215,6 +215,8 @@ int main()
 				endGame();
 			}
 
+			world.draw();
+
 			for (int i = 0; i < bulletMax; ++i)
 			{
 				if (bullets[i].active)
@@ -324,7 +326,6 @@ int main()
 			}
 
 			entity.draw();
-			world.draw();
 		}
 		else if(screen == 1)
 		{
