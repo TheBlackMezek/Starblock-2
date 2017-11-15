@@ -209,7 +209,7 @@ int main()
 
 			entity.body.force.x += sfw::getKey('A') * -1000;
 			entity.body.force.x += sfw::getKey('D') * 1000;
-			entity.body.impulse.y += sfw::getKey('W') * 900 * entity.onGround;
+			entity.body.impulse.y += (sfw::getKey('W') || sfw::getKey(32)) * 900 * entity.onGround;
 
 			entity.update(dt);
 			world.collide(entity);
