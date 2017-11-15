@@ -304,7 +304,7 @@ int main()
 			std::string surviveString = std::to_string((int)timeSurvived);
 			writeString(surviveString.c_str(), surviveString.size(), 10, 550, 30);
 
-			if (mouseDist <= maxBlockDist)
+			if (mouseDist <= maxBlockDist && world.getTile(mouseTile.x, mouseTile.y))
 			{
 				drawBox({ mouseTile * world.tileSize,
 						{(mouseTile.x * world.tileSize) + world.tileSize, (mouseTile.y * world.tileSize) + world.tileSize }
@@ -369,7 +369,7 @@ int main()
 			writeString(helpStr.c_str(), helpStr.size(), center, 480, 20);
 		}
 
-		sfw::drawCircle(mousePos.x, mousePos.y, 3);
+		sfw::drawCircle(mousePos.x, mousePos.y, 3, 12U, YELLOW);
 	}
 
 	return 0;
