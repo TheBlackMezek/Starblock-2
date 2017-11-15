@@ -312,8 +312,11 @@ int main()
 				if (bullets[i].active)
 				{
 					//sfw::drawCircle(bullets[i].trans.pos.x, bullets[i].trans.pos.y, 3);
+					float rad = bullets[i].trans.angleRad;
+					bullets[i].trans.angleRad = 0;
 					drawTexture(Textures::bullet,
 						bullets[i].collider.getGlobalBox(bullets[i].trans));
+					bullets[i].trans.angleRad = rad;
 				}
 			}
 
